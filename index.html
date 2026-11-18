@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>WORLD COUNTRY BATTLE</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;font-family:sans-serif;user-select:none}
+    body{background:#090c1c;color:#fff;min-height:100vh;display:flex;justify-content:center;padding:12px 10px 40px}
+    .app{width:100%;max-width:420px;text-align:center}
+    h1{color:#ffd000;font-size:20px;font-weight:900;margin-bottom:6px}
+    .bar{display:flex;justify-content:center;gap:6px;margin-bottom:8px;flex-wrap:wrap}
+    .pill{background:#181d3b;border:1px solid #30386b;padding:4px 9px;border-radius:99px;font-size:11px;color:#cbd5e1}
+    .pill b{color:#ffd000}
+    .card{background:#131730;border:1.5px solid #ffd000;border-radius:16px;padding:15px 12px;margin-top:8px;text-align:left}
+    .card h2{color:#ffd000;font-size:16px;text-align:center;margin-bottom:4px}
+    .sub{font-size:11px;color:#94a3b8;text-align:center;margin-bottom:10px}
+    .gbtn{width:100%;background:#fff;color:#111;border:none;border-radius:10px;padding:10px;font-weight:800;font-size:13px;margin-bottom:9px}
+    label{display:block;font-size:11px;font-weight:700;color:#94a3b8;margin-bottom:3px}
+    input,select{width:100%;background:#0b0e20;border:1px solid #32396e;color:#fff;border-radius:9px;padding:9px;font-size:13px;margin-bottom:8px;user-select:text}
+    .gold{width:100%;background:#f59e0b;color:#111;border:none;border-radius:11px;padding:12px;font-size:14px;font-weight:900;margin-top:3px}
+    .msw{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;background:#101429;padding:4px;border-radius:10px}
+    .mb{background:transparent;color:#94a3b8;border:none;border-radius:8px;padding:7px;font-size:11px;font-weight:800}
+    .mb.on{background:#0284c7;color:#fff}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:8px}
+    .sb{background:#161b36;border:1px solid #2b325e;border-radius:9px;padding:5px 2px}
+    .st{font-size:9px;color:#94a3b8;font-weight:700}
+    .sv{font-size:13px;font-weight:900;color:#ffd000}
+    .cw{position:relative;width:100%;border-radius:14px;overflow:hidden;border:2px solid #38bdf8;background:#060812;margin-bottom:8px}
+    canvas{display:block;width:100%;height:310px;touch-action:none}
+    .ov{position:absolute;inset:0;background:rgba(6,8,18,.88);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px}
+    .ov h3{color:#ffd000;font-size:18px;font-weight:900;margin-bottom:5px}
+    .ov p{font-size:12px;color:#cbd5e1;margin-bottom:12px}
+    .pbtn{background:#16a34a;color:#fff;border:none;border-radius:11px;padding:12px 20px;font-size:14px;font-weight:900}
+    .fbar{display:flex;gap:5px;overflow-x:auto;padding-bottom:6px;margin-bottom:7px}
+    .fc{background:#161a33;border:1.5px solid #2a3059;border-radius:9px;padding:5px 8px;color:#fff;font-size:11px;font-weight:700;flex-shrink:0}
+    .fc.on{border-color:#ffd000;background:#262c57}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px}
+    .b1{background:#7c3aed;color:#fff;border:none;border-radius:9px;padding:9px 5px;font-weight:800;font-size:11px}
+    .b2{background:#2563eb;color:#fff;border:none;border-radius:9px;padding:9px 5px;font-weight:800;font-size:11px}
+    .b3{background:#1e293b;border:1px solid #38bdf8;color:#38bdf8;border-radius:9px;padding:9px 5px;font-weight:800;font-size:11px}
+    .b4{background:#16a34a;color:#fff;border:none;border-radius:9px;padding:9px 5px;font-weight:800;font-size:11px}
+    .lb{background:#131730;border:1px solid #2d3461;border-radius:13px;padding:9px;text-align:left}
+    .lb h2{font-size:12px;color:#ffd000;margin-bottom:5px;text-align:center}
+    .rk{display:flex;justify-content:space-between;padding:4px;border-bottom:1px solid #22274a;font-size:11px}
+    .mbg{position:fixed;inset:0;background:rgba(0,0,0,.82);display:none;align-items:center;justify-content:center;padding:14px;z-index:100}
+    .mod{background:#161a33;border:1.5px solid #ffd000;border-radius:15px;padding:15px;width:100%;max-width:340px;text-align:left}
+    .toast{position:fixed;bottom:15px;left:50%;transform:translateX(-50%);background:#16a34a;color:#fff;padding:8px 14px;border-radius:99px;font-weight:800;font-size:11px;display:none;z-index:200}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>WORLD COUNTRY BATTLE</h1>
+    <div id="regBox" class="card">
+      <h2>CREATE WARRIOR ACCOUNT</h2>
+      <p class="sub">1 Unique Name &amp; 1 Account per Device • Earn USD</p>
+      <button type="button" class="gbtn" onclick="focusGmail()">G Continue with Gmail</button>
+      <label>Gmail Address</label>
+      <input type="email" id="rEmail" placeholder="yourname@gmail.com" />
+      <label>Unique Warrior Name (1 per Device)</label>
+      <input type="text" id="rName" placeholder="Enter unique username..." maxlength="16" />
+      <label>Country</label>
+      <select id="rCountry">
+        <option value="ph">Philippines</option><option value="om">Oman</option><option value="ae">UAE</option>
+        <option value="sa">Saudi Arabia</option><option value="in">India</option><option value="pk">Pakistan</option>
+        <option value="bd">Bangladesh</option><option value="us">USA</option><option value="id">Indonesia</option><option value="eg">Egypt</option>
+      </select>
+      <label>Invite Code (Leave blank = warrior13)</label>
+      <input type="text" id="rInv" placeholder="Default: warrior13" />
+      <button type="button" class="gold" onclick="doReg()">REGISTER &amp; ENTER ARENA (+50 Coins)</button>
+    </div>
+    <div id="gameBox" style="display:none">
+      <div class="bar">
+        <div class="pill">Warrior: <b id="hUser">Player</b></div>
+        <div class="pill">Code: <b id="hCode">WCB13</b></div>
+        <div class="pill">Upline: <b id="hUp">warrior13</b></div>
+      </div>
+      <div class="fbar" id="fBar"></div>
+      <div class="msw">
+        <button class="mb on" id="mLvl" onclick="setMode('level')">LEVEL STAGES (Boss)</button>
+        <button class="mb" id="mEnd" onclick="setMode('endless')">ENDLESS WAR</button>
+      </div>
+      <div class="stats">
+        <div class="sb"><div class="st" id="sLbl">LEVEL</div><div class="sv" id="hStg">1</div></div>
+        <div class="sb"><div class="st">COINS</div><div class="sv" id="hCoins">0</div></div>
+        <div class="sb"><div class="st">USD</div><div class="sv" style="color:#4ade80" id="hUsd">$0.00</div></div>
+        <div class="sb"><div class="st">INVITES</div><div class="sv" id="hInv">0</div></div>
+      </div>
+      <div class="cw">
+        <canvas id="cv" width="380" height="310"></canvas>
+        <div class="ov" id="ov">
+          <h3 id="ovT">COUNTRY STAR BATTLE</h3>
+          <p id="ovD">Drag your Cyber Fighter left &amp; right to blast rival squadrons, defeat Level Bosses or play Endless War!</p>
+          <button class="pbtn" id="sBtn" onclick="startGame()">START LEVEL 1</button>
+        </div>
+      </div>
+      <div class="grid">
+        <button class="b1" id="uBtn" onclick="upWep()">Plasma Lv.1 (150)</button>
+        <button class="b2" onclick="openOffer()">Featured Games</button>
+        <button class="b3" onclick="shareInv()">Invite Friends (+100)</button>
+        <button class="b4" onclick="openW()">Withdraw ($5.00 Min)</button>
+      </div>
+      <div style="font-size:10px;color:#94a3b8;margin-bottom:8px">10,000 Coins = <b style="color:#4ade80">$1.00 USD</b> • Min Cashout: <b style="color:#4ade80">$5.00 USD (50,000 Coins)</b></div>
+      <div class="lb"><h2>LIVE COUNTRY WAR STANDINGS</h2><div id="lbList"></div></div>
+    </div>
+  </div>
+  <div class="mbg" id="wMod">
+    <div class="mod">
+      <h3 style="color:#ffd000;text-align:center;margin-bottom:6px">WITHDRAW USD</h3>
+      <p style="font-size:12px;text-align:center;margin-bottom:10px">Balance: <b id="mUsd" style="color:#4ade80">$0.00</b> (<span id="mCoins">0</span> Coins)<br>Min: <b>$5.00 USD (50,000 Coins)</b></p>
+      <select id="pMeth"><option value="USDT">USDT Crypto</option><option value="PayPal">PayPal</option><option value="GCash">GCash (PHP)</option></select>
+      <input type="text" id="pAcc" placeholder="Wallet address / PayPal / GCash..." />
+      <div class="grid"><button class="b3" onclick="closeW()">Cancel</button><button class="b4" onclick="sendW()">Submit</button></div>
+    </div>
+  </div>
+  <div class="toast" id="tst"></div>
+  <script>
+    const AD_URL="https://uplcm.com";
+    const ADMIN_EMAIL="ILAGAY-ANG-EMAIL-MO@gmail.com";
+    const CS=[
+      {c:'ph',n:'Philippines',col:'#0038a8',b:1540},{c:'om',n:'Oman',col:'#db161b',b:1210},
+      {c:'ae',n:'UAE',col:'#00732f',b:1290},{c:'sa',n:'Saudi',col:'#006c35',b:1250},
+      {c:'in',n:'India',col:'#ff9933',b:1480},{c:'pk',n:'Pakistan',col:'#01411c',b:1120},
+      {c:'bd',n:'Bangladesh',col:'#006a4e',b:1080},{c:'us',n:'USA',col:'#3c3b6e',b:1390},
+      {c:'id',n:'Indonesia',col:'#ce1126',b:1310},{c:'eg',n:'Egypt',col:'#c09300',b:990}
+    ];
+    let mem={};function gS(k){try{return localStorage.getItem(k)}catch(e){return mem[k]||null}}function sS(k,v){try{localStorage.setItem(k,v)}catch(e){mem[k]=v}}
+    let u=JSON.parse(gS('wcb5')),mode='level',run=false,adPend=false,fr=0;
+    function msg(t,col='#16a34a'){const e=document.getElementById('tst');e.textContent=t;e.style.background=col;e.style.display='block';setTimeout(()=>e.style.display='none',2200)}
+    function save(){sS('wcb5',JSON.stringify(u))}
+    function enter(){document.getElementById('regBox').style.display='none';document.getElementById('gameBox').style.display='block';ui()}
+    if(u)enter();
+    function focusGmail(){const i=document.getElementById('rEmail');i.focus();msg('Type or pick your saved @gmail.com!','#2563eb')}
+    function doReg(){
+      if(gS('wcb5'))return msg('1 account per device only!','#dc2626');
+      if(gS('wcb5'))return msg('1 account per device only!','#dc2626');
+      const em=document.getElementById('rEmail').value.trim().toLowerCase(),nm=document.getElementById('rName').value.trim(),co=document.getElementById('rCountry').value;
+      const up=document.getElementById('rInv').value.trim()||'warrior13';
+      if(!em.includes('@')||!em.includes('.'))return msg('Enter valid Gmail!','#dc2626');
+      if(nm.length<3)return msg('Name min 3 chars!','#dc2626');
+      u={em,nm,co,up,cd:nm.toUpperCase().slice(0,6)+Math.floor(10+Math.random()*89),coins:50,inv:0,lv:1,stg:1,best:0,sc:{}};
+      save();enter();msg('Welcome '+nm+'! Linked to '+up+' (+50 Coins)');
+    }
+    function ui(){
+      document.getElementById('hUser').textContent=u.nm;document.getElementById('hCode').textContent=u.cd;document.getElementById('hUp').textContent=u.up;
+      document.getElementById('sLbl').textContent=mode==='level'?'LEVEL':'BEST';document.getElementById('hStg').textContent=mode==='level'?u.stg:u.best;
+      document.getElementById('hCoins').textContent=u.coins.toLocaleString();document.getElementById('hUsd').textContent='$'+(u.coins/10000).toFixed(2);
+      document.getElementById('hInv').textContent=u.inv;document.getElementById('uBtn').textContent=`Plasma Lv.${u.lv} (${u.lv*150})`;
+      if(!run)document.getElementById('sBtn').textContent=adPend?'CONTINUE BATTLE':(mode==='level'?`START LEVEL ${u.stg}`:'START ENDLESS WAR');
+      document.getElementById('fBar').innerHTML=CS.map(x=>`<button class="fc ${u.co===x.c?'on':''}" onclick="setC('${x.c}')">${x.c.toUpperCase()} ${x.n}</button>`).join('');
+      const rk=CS.map(x=>({...x,t:x.b+(u.sc[x.c]||0)})).sort((a,b)=>b.t-a.t);
+      document.getElementById('lbList').innerHTML=rk.map((x,i)=>`<div class="rk"><span>#${i+1} ${x.n}</span><b style="color:#ffd000">${x.t.toLocaleString()} pts</b></div>`).join('');
+    }
+    function setC(c){u.co=c;save();ui()}
+    function setMode(m){mode=m;document.getElementById('mLvl').classList.toggle('on',m==='level');document.getElementById('mEnd').classList.toggle('on',m==='endless');ui()}
+    const cv=document.getElementById('cv'),g=cv.getContext('2d');
+    let sh={x:190,y:268,hp:100},bl=[],en=[],dr=[],bs=null,kl=0,rc=0;
+    function mv(x){const r=cv.getBoundingClientRect();sh.x=Math.max(22,Math.min(358,(x-r.left)*(380/r.width)))}
+    cv.addEventListener('touchmove',e=>{e.preventDefault();mv(e.touches[0].clientX)},{passive:false});
+    cv.addEventListener('touchstart',e=>mv(e.touches[0].clientX));cv.addEventListener('mousemove',e=>{if(run)mv(e.clientX)});
+    function startGame(){
+      if(adPend){if(AD_URL)window.open(AD_URL,'_blank');adPend=false;save();ui();}
+      sh.hp=100;bl=[];en=[];dr=[];bs=null;kl=0;rc=0;run=true;document.getElementById('ov').style.display='none';requestAnimationFrame(loop);
+    }
+    function jet(x,y,col,cd,inv){
+      g.save();g.translate(x,y);if(inv)g.rotate(Math.PI);g.fillStyle=col;
+      g.beginPath();g.moveTo(0,-20);g.lineTo(-20,12);g.lineTo(0,6);g.lineTo(20,12);g.closePath();g.fill();
+      g.strokeStyle='#ffd000';g.lineWidth=1.5;g.stroke();g.restore();
+      g.fillStyle='#fff';g.font='bold 9px sans-serif';g.textAlign='center';g.fillText(cd.toUpperCase(),x,y+(inv?-14:22));
+    }
+    function loop(){
+      if(!run)return;fr++;g.fillStyle='#060812';g.fillRect(0,0,380,310);
+      const df=mode==='level'?u.stg:1+Math.floor(kl/10),gl=10+u.stg*2;
+      if(fr%12===0){bl.push({x:sh.x,y:sh.y-18});if(u.lv>=2)bl.push({x:sh.x-13,y:sh.y-8},{x:sh.x+13,y:sh.y-8})}
+      if(mode==='level'&&kl>=gl&&!bs){const f=CS.filter(x=>x.c!==u.co)[u.stg%9];bs={x:190,y:58,d:2,hp:20+u.stg*10,mx:20+u.stg*10,f}}
+      else if(!bs&&fr%Math.max(20,42-df*2)===0){const f=CS.filter(x=>x.c!==u.co)[Math.floor(Math.random()*9)];en.push({x:30+Math.random()*320,y:-20,hp:1+Math.floor(df/2),f})}
+      const me=CS.find(x=>x.c===u.co)||CS[0];jet(sh.x,sh.y,me.col,me.c,false);
+      g.fillStyle='#38bdf8';bl.forEach((b,i)=>{b.y-=8;g.fillRect(b.x-2,b.y,4,11);if(b.y<0)bl.splice(i,1)});
+      if(bs){
+        bs.x+=bs.d;if(bs.x<50||bs.x>330)bs.d*=-1;
+        g.fillStyle=bs.f.col;g.fillRect(bs.x-42,bs.y-20,84,40);g.strokeStyle='#ffd000';g.strokeRect(bs.x-42,bs.y-20,84,40);
+        g.fillStyle='#fff';g.fillText(bs.f.n.toUpperCase()+' BOSS',bs.x,bs.y+4);
+        g.fillStyle='#22c55e';g.fillRect(bs.x-42,bs.y-28,84*(bs.hp/bs.mx),5);
+        bl.forEach((b,i)=>{if(Math.abs(b.x-bs.x)<44&&Math.abs(b.y-bs.y)<22){bl.splice(i,1);bs.hp-=u.lv}});
+        if(bs.hp<=0){const rw=25*u.stg;rc+=rw;u.coins+=rw;u.sc[u.co]=(u.sc[u.co]||0)+rw;u.stg++;run=false;adPend=true;save();ui();document.getElementById('ovT').textContent='LEVEL CLEARED!';document.getElementById('ovD').innerHTML=`Earned +${rc} Coins! Ready for next battle?`;document.getElementById('ov').style.display='flex';return}
+      }
+      en.forEach((e,i)=>{
+        e.y+=1.7+df*0.18;jet(e.x,e.y,e.f.col,e.f.c,true);
+        bl.forEach((b,bi)=>{if(Math.abs(b.x-e.x)<19&&Math.abs(b.y-e.y)<17){bl.splice(bi,1);e.hp-=u.lv;if(e.hp<=0){en.splice(i,1);kl++;if(mode==='endless'&&kl>u.best)u.best=kl;dr.push({x:e.x,y:e.y})}}});
+        if(Math.abs(sh.x-e.x)<22&&Math.abs(sh.y-e.y)<20){en.splice(i,1);sh.hp-=15}else if(e.y>310){en.splice(i,1)}
+      });
+      dr.forEach((d,i)=>{
+        d.y+=2.4;g.fillStyle='#ffd000';g.beginPath();g.arc(d.x,d.y,8,0,Math.PI*2);g.fill();
+        if(Math.abs(sh.x-d.x)<26&&Math.abs(sh.y-d.y)<26){dr.splice(i,1);const gn=2*u.lv;rc+=gn;u.coins+=gn;sh.hp=Math.min(100,sh.hp+2);u.sc[u.co]=(u.sc[u.co]||0)+gn;ui()}
+      });
+      g.fillStyle='#22c55e';g.fillRect(10,10,Math.max(0,sh.hp),7);g.fillStyle='#ffd000';g.textAlign='right';
+      g.fillText((mode==='level'?`Kills: ${Math.min(kl,gl)}/${gl}`:`Endless: ${kl}`)+` | +${rc} Coins`,370,17);
+      if(sh.hp<=0){run=false;adPend=true;save();ui();document.getElementById('ovT').textContent='SHIELD DEPLETED!';document.getElementById('ovD').innerHTML=`Earned +${rc} Coins! Tap below to play again.`;document.getElementById('ov').style.display='flex';return}
+      requestAnimationFrame(loop);
+    }
+    function upWep(){const c=u.lv*150;if(u.coins<c)return msg('Need '+c+' Coins!','#dc2626');u.coins-=c;u.lv++;save();ui();msg('Plasma Lv.'+u.lv+'!')}
+    function openOffer(){if(AD_URL)window.open(AD_URL,'_blank')}
+    function shareInv(){if(navigator.clipboard)navigator.clipboard.writeText('Code: '+u.cd+' (or warrior13) -> https://tiiny.site');u.inv++;u.coins+=100;save();ui();msg('+100 Invite Coins!')}
+    function openW(){document.getElementById('mUsd').textContent='$'+(u.coins/10000).toFixed(2);document.getElementById('mCoins').textContent=u.coins;document.getElementById('wMod').style.display='flex'}
+    function closeW(){document.getElementById('wMod').style.display='none'}
+    function sendW(){
+      if(u.coins<50000)return msg('Min $5.00 (50,000 Coins)!','#dc2626');
+      const acc=document.getElementById('pAcc').value.trim();
+      if(!acc)return msg('Enter account!','#dc2626');
+      const meth=document.getElementById('pMeth').value;
+      const usd=(u.coins/10000).toFixed(2);
+      const sub=encodeURIComponent(`WCB Payout Request - ${u.nm} ($${usd})`);
+      const body=encodeURIComponent(`Warrior: ${u.nm}\nEmail: ${u.em}\nCode: ${u.cd}\nUpline: ${u.up}\nAmount: $${usd} (${u.coins} Coins)\nMethod: ${meth}\nAccount: ${acc}`);
+      u.coins=0;save();ui();closeW();msg('Opening email to send payout request!');
+      if(ADMIN_EMAIL&&!ADMIN_EMAIL.includes('ILAGAY'))window.location.href=`mailto:${ADMIN_EMAIL}?subject=${sub}&body=${body}`;
+    }
+  </script>
+</body>
+</html>
